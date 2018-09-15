@@ -27,7 +27,12 @@ Field::Field(int width, int height)
 
 Tile Field::tileat(int x, int y)
 {
-  return field[x + width*y];
+  int index = x + width * y;
+  if (index < (int)field.size()) {
+    return field[index];
+  } else {
+    return Tile(0);
+  }
 }
 
 int Field::Get_width()
