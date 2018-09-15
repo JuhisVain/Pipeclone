@@ -4,11 +4,11 @@
 #include "common_data_fun.hpp"
 
 Field::Field()
-  :width(0), height(0), wrap(0)
+  :width(0), height(0)
 {}
 
-Field::Field(int width, int height, bool wrap)
-  :width(width), height(height), wrap(wrap)
+Field::Field(int width, int height)
+  :width(width), height(height)
 {
   for (int y = 0; y < height; ++y) {
     for (int x = 0; x < width; ++x) {

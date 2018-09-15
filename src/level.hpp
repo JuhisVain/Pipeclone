@@ -5,6 +5,7 @@
 #include "tile.hpp"
 #include "field.hpp"
 
+
 class Level
 {
 public:
@@ -14,6 +15,7 @@ public:
   Field &Get_field();
 
   void Play_tile(int x, int y);
+  struct coordinates Get_start(); //But what if we want more starting points?
 
 private:
   int difficulty, level_count;
@@ -21,6 +23,9 @@ private:
   int score;
   Field field;
   std::deque<Tile> tile_queue;
+
+  crd start_tile;
+  crd flood_head;
 
   Field Generate_field(int difficulty, int level_count);
   void Generate_tile(int difficulty, int level_count);

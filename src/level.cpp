@@ -38,17 +38,30 @@ void Level::Play_tile(int x, int y)
   field.Set_tile(x,y,Pop_tile());
 }
 
+struct coordinates Level::Get_start()
+{
+  return start_tile;
+}
+
 //Private
 
 Field Level::Generate_field(int difficulty, int level_count)
 {
-  int width = 16, height = 16, wrap = 0; //Todo fun's args should affect
-  Field field = Field(width,height,wrap);
+  //TODO: check that start and end don't point to walls
+  int width = 10, height = 7;
+  Field field = Field(width,height);
 
   //Create start and end tiles:
   int startx = (randint() % width);
   int starty = (randint() % height);
   field.Set_tile(startx, starty, START|(0x1<<(randint()%4)));
+  
+  start_tile.x = startx;
+  start_tile.y = starty;
+
+  flood_head.x = -1;
+  flood_head.y = -1;
+  
   int endx, endy;
   do {
     endx = (randint() % width);

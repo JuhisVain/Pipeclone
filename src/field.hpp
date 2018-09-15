@@ -5,11 +5,16 @@
 #include <vector>
 #include "tile.hpp"
 
+
+typedef struct coordinates {
+  int x, y;
+} crd;
+
 class Field
 {
 public:
   Field();
-  Field(int width, int height, bool wrap);
+  Field(int width, int height);
   Tile tileat(int x, int y);
   int Get_width();
   int Get_height();
@@ -19,7 +24,6 @@ public:
 
 private:
   int width, height;
-  bool wrap;
   std::vector<Tile> field;
   
 };

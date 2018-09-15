@@ -94,10 +94,95 @@ Game::Game(int difficulty)
     std::cout << "Give Y: ";
     std::cin >> input_y;
 
-    current_level.Play_tile(input_x,input_y);
-    
-    
+    if (input_x != 666) {
+      current_level.Play_tile(input_x,input_y);
+    } else {
+      Test_pipe();
+    }
   }
-  
 }
 
+void Game::Test_pipe()
+{
+  crd path_head = current_level.Get_start();
+  Field &field = current_level.Get_field();
+  int pipecode = (N|E|S|W)&(field.tileat(path_head.x, path_head.y).Get_pipe());
+
+  while (true) {
+
+    std::cout << "crd: " << path_head.x << "," << path_head.y;
+    
+    switch (pipecode) {
+    case N: //Go look at North
+      std::cout << ", N" << std::endl;
+      --path_head.y;
+      pipecode = field.tileat(path_head.x, path_head.y).Get_pipe(); //tile at North
+      if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) { //Is a cross?
+	std::cout << " Is cross, ";
+	pipecode = N & pipecode;
+      } else if (S & pipecode) { //Has entry from South?
+	std::cout << " Has entry from south" << std::endl;
+	pipecode = (N|E|W) & pipecode; //pipecode with exit only
+      } else {
+	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
+	return;
+      }
+      break;
+    case E:
+      std::cout << ", E" << std::endl;
+      ++path_head.x;
+      pipecode = field.tileat(path_head.x, path_head.y).Get_pipe();
+      if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
+	std::cout << " Is cross, ";
+	pipecode = E & pipecode;
+      } else if (W & pipecode) {
+	std::cout << " Has entry from west" << std::endl;
+	pipecode = (N|E|S) & pipecode;
+      } else {
+	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
+	return;
+      }
+      break;
+    case S:
+      std::cout << ", S" << std::endl;
+      ++path_head.y;
+      pipecode = field.tileat(path_head.x, path_head.y).Get_pipe();
+      if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
+	std::cout << " Is cross, ";
+	pipecode = S & pipecode;
+      } else if (N & pipecode) {
+	std::cout << " Has entry from north" << std::endl;
+	pipecode = (S|E|W) & pipecode;
+      } else {
+	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
+	return;
+      }
+      break;
+    case W:
+      std::cout << ", W" << std::endl;
+      --path_head.x;
+      pipecode = field.tileat(path_head.x, path_head.y).Get_pipe();
+      if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
+	std::cout << " Is cross, ";
+	pipecode = W & pipecode;
+      } else if (E & pipecode) {
+	std::cout << " Has entry from east" << std::endl;
+	pipecode = (S|W|N) & pipecode;
+      } else {
+	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
+	return;
+      }
+      break;
+    default:
+      if (field.tileat(path_head.x, path_head.y).Get_pipe() & END) {
+	std::cout << "No leak!" << std::endl;
+      } else {
+	std::cout << "FAIL: " << pipecode << std::endl;
+      }
+	return;
+      break;
+    }
+    
+  }
+
+}

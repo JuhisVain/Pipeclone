@@ -2,6 +2,7 @@
 #define TILE_H
 
 enum PIPE {
+	   NONE =     0x0,
 	   N =        0x1,
 	   E =        0x2,
 	   S =        0x4,

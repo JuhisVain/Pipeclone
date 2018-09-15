@@ -14,6 +14,8 @@ private:
   int level_count;
   Level current_level;
 
+  void Test_pipe();
+
 };
 
 #endif
