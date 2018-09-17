@@ -51,9 +51,13 @@ Field Level::Generate_field(int difficulty, int level_count)
   int width = 10, height = 7;
   Field field = Field(width,height);
 
+
   //Create start and end tiles:
   int startx = (randint() % width);
   int starty = (randint() % height);
+
+  std::cout << "startx : " << startx << "starty : " << starty << std::endl;
+  
   field.Set_tile(startx, starty, START|(0x1<<(randint()%4)));
   
   start_tile.x = startx;

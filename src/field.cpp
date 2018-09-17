@@ -25,14 +25,20 @@ Field::Field(int width, int height)
   }
 }
 
-Tile Field::tileat(int x, int y)
+Tile &Field::tileat(int x, int y)
 {
   int index = x + width * y;
   if (index < (int)field.size()) {
     return field[index];
   } else {
-    return Tile(0);
+    std::cout << "tileat index out of bounds!" << std::endl;
+    exit(-1);
   }
+}
+
+Tile &Field::Tile_by_index(int i)
+{
+  return field[i];
 }
 
 int Field::Get_width()

@@ -69,6 +69,9 @@ Game::Game(int difficulty)
    current_level(Level(difficulty,level_count))
 {
 
+  std::cout << "Game constructor" << std::endl;
+  
+  /*
   //this is a test:
   Field &field = current_level.Get_field();
   std::deque<Tile> &tq = current_level.Get_tile_queue();
@@ -100,6 +103,17 @@ Game::Game(int difficulty)
       Test_pipe();
     }
   }
+  */
+}
+
+Level &Game::Get_level()
+{
+  return current_level;
+}
+
+Field &Game::Get_field()
+{
+  return current_level.Get_field();
 }
 
 void Game::Test_pipe()

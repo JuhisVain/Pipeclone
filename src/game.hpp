@@ -3,10 +3,14 @@
 
 #include "level.hpp"
 
+std::string print_pipe(int pipe);
+
 class Game
 {
 public:
   explicit Game(int difficulty);
+  Level &Get_level();
+  Field &Get_field();
   
 private:
   int difficulty;
