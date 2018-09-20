@@ -9,7 +9,8 @@ Level::Level(int difficulty, int level_count)
    level_count(level_count),
    time_before_start(0),
    score(0),
-   field(Generate_field(difficulty, level_count))
+   field(Generate_field(difficulty, level_count)),
+   tile_queue_size(8)
 {
   Generate_tile_queue(difficulty,level_count);
 }
@@ -26,6 +27,16 @@ Tile Level::Pop_tile()
 std::deque<Tile> &Level::Get_tile_queue()
 {
   return tile_queue;
+}
+
+Tile *Level::Get_tile_ref(int index)
+{
+  return &(tile_queue[index]);
+}
+
+int Level::Get_tile_queue_size()
+{
+  return tile_queue_size;
 }
 
 Field &Level::Get_field()

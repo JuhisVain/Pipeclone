@@ -16,6 +16,7 @@ public:
   Field();
   Field(int width, int height);
   Tile &tileat(int x, int y);
+  Tile *tileptr(int x, int y);
   Tile &Tile_by_index(int i);
   int Get_width();
   int Get_height();

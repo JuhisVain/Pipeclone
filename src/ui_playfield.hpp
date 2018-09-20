@@ -19,6 +19,9 @@ class Ui_playfield : public QWidget
 public:
   Ui_playfield(QWidget *parent, Field &datafield);
 
+signals:
+  void field_clicked();
+
 protected:
   virtual void mouseReleaseEvent(QMouseEvent *event);
 
@@ -27,6 +30,7 @@ private:
   int tilesize;
 
   std::vector<Ui_tile*> ui_tiles;
+  
 
   void Setup_ui_field();  
   

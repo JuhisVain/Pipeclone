@@ -24,7 +24,12 @@ int main(int argc, char *argv[])
   QApplication app(argc, argv);
   Main_window mw(NULL);
 
+  std::cout << "Main window created" << std::endl;
+
   mw.show();
+
+  std::cout << "main window shown" << std::endl;
+  
   return app.exec();
   //Game game(0);
 }

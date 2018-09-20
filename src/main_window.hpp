@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "ui_playfield.hpp"
+#include "ui_panel.hpp"
 
 class Main_window : public QMainWindow
 {
@@ -11,11 +12,15 @@ class Main_window : public QMainWindow
 public:
   explicit Main_window(QWidget *parent = 0);
 
+public slots:
+  void update_panel();
+
 private:
   void Setup_ui();
 
   QWidget *central_widget;
   Ui_playfield *ui_field;
+  Ui_panel *ui_panel;
 
   
   

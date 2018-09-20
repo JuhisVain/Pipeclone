@@ -30,7 +30,8 @@ HEADERS += common_data_fun.hpp \
            tile.hpp \
            ui_playfield.hpp \
            controller.hpp \
-	   ui_tile.hpp
+	   ui_tile.hpp \
+	   ui_panel.hpp
 SOURCES += common_data_fun.cpp \
            field.cpp \
            game.cpp \
@@ -40,4 +41,5 @@ SOURCES += common_data_fun.cpp \
            tile.cpp \
            ui_playfield.cpp \
            controller.cpp \
-	   ui_tile.cpp
+	   ui_tile.cpp \
+	   ui_panel.cpp

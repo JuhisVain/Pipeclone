@@ -9,7 +9,8 @@ class Ui_tile : public QWidget
 {
   Q_OBJECT
 public:
-  Ui_tile(QWidget *parent, Tile &tile);
+  Ui_tile(QWidget *parent, Tile *tile);
+  void relink_tile(Tile *tile);
 
   int dbpipe();
   
@@ -17,7 +18,7 @@ protected:
   virtual void paintEvent(QPaintEvent *event);
   
 private:
-  Tile &tile;
+  Tile *tile;
 };
 
 #endif

@@ -17,6 +17,11 @@ Field &Controller::Get_field()
   return game.Get_field();
 }
 
+Level &Controller::Get_level()
+{
+  return game.Get_level();
+}
+
 Game &Controller::Get_game()
 {
   return game;

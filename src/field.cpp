@@ -36,6 +36,17 @@ Tile &Field::tileat(int x, int y)
   }
 }
 
+Tile *Field::tileptr(int x, int y)
+{
+  int index = x + width * y;
+  if (index < (int)field.size()) {
+    return &(field[index]);
+  } else {
+    std::cout << "tileptr index out of bounds!" << std::endl;
+    exit(-1);
+  }
+}
+
 Tile &Field::Tile_by_index(int i)
 {
   return field[i];

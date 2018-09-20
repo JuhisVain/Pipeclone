@@ -10,6 +10,7 @@ public:
   Controller();
   void New_game(int difficulty);
   Field &Get_field();
+  Level &Get_level();
   Game &Get_game();
 
 private:

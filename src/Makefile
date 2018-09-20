@@ -59,9 +59,11 @@ SOURCES       = common_data_fun.cpp \
 		tile.cpp \
 		ui_playfield.cpp \
 		controller.cpp \
-		ui_tile.cpp moc_main_window.cpp \
+		ui_tile.cpp \
+		ui_panel.cpp moc_main_window.cpp \
 		moc_ui_playfield.cpp \
-		moc_ui_tile.cpp
+		moc_ui_tile.cpp \
+		moc_ui_panel.cpp
 OBJECTS       = common_data_fun.o \
 		field.o \
 		game.o \
@@ -72,9 +74,11 @@ OBJECTS       = common_data_fun.o \
 		ui_playfield.o \
 		controller.o \
 		ui_tile.o \
+		ui_panel.o \
 		moc_main_window.o \
 		moc_ui_playfield.o \
-		moc_ui_tile.o
+		moc_ui_tile.o \
+		moc_ui_panel.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
 		/usr/lib/qt/mkspecs/common/linux.conf \
@@ -251,7 +255,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		tile.hpp \
 		ui_playfield.hpp \
 		controller.hpp \
-		ui_tile.hpp common_data_fun.cpp \
+		ui_tile.hpp \
+		ui_panel.hpp common_data_fun.cpp \
 		field.cpp \
 		game.cpp \
 		level.cpp \
@@ -260,7 +265,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		tile.cpp \
 		ui_playfield.cpp \
 		controller.cpp \
-		ui_tile.cpp
+		ui_tile.cpp \
+		ui_panel.cpp
 QMAKE_TARGET  = pipe
 DESTDIR       = 
 TARGET        = pipe
@@ -632,8 +638,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents common_data_fun.hpp field.hpp game.hpp level.hpp main_window.hpp tile.hpp ui_playfield.hpp controller.hpp ui_tile.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents common_data_fun.cpp field.cpp game.cpp level.cpp main.cpp main_window.cpp tile.cpp ui_playfield.cpp controller.cpp ui_tile.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents common_data_fun.hpp field.hpp game.hpp level.hpp main_window.hpp tile.hpp ui_playfield.hpp controller.hpp ui_tile.hpp ui_panel.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents common_data_fun.cpp field.cpp game.cpp level.cpp main.cpp main_window.cpp tile.cpp ui_playfield.cpp controller.cpp ui_tile.cpp ui_panel.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -665,9 +671,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/qt/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong -fno-plt -Wall -W -dM -E -o moc_predefs.h /usr/lib/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_main_window.cpp moc_ui_playfield.cpp moc_ui_tile.cpp
+compiler_moc_header_make_all: moc_main_window.cpp moc_ui_playfield.cpp moc_ui_tile.cpp moc_ui_panel.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_main_window.cpp moc_ui_playfield.cpp moc_ui_tile.cpp
+	-$(DEL_FILE) moc_main_window.cpp moc_ui_playfield.cpp moc_ui_tile.cpp moc_ui_panel.cpp
 moc_main_window.cpp: ui_playfield.hpp \
 		ui_tile.hpp \
 		tile.hpp \
@@ -675,6 +681,7 @@ moc_main_window.cpp: ui_playfield.hpp \
 		controller.hpp \
 		game.hpp \
 		level.hpp \
+		ui_panel.hpp \
 		main_window.hpp \
 		moc_predefs.h \
 		/usr/bin/moc
@@ -696,6 +703,15 @@ moc_ui_tile.cpp: tile.hpp \
 		moc_predefs.h \
 		/usr/bin/moc
 	/usr/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/juho/Puuhailu/cpp/cppproj/Pipe/src -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/8.2.1 -I/usr/include/c++/8.2.1/x86_64-pc-linux-gnu -I/usr/include/c++/8.2.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/include-fixed -I/usr/include ui_tile.hpp -o moc_ui_tile.cpp
+
+moc_ui_panel.cpp: ui_tile.hpp \
+		tile.hpp \
+		level.hpp \
+		field.hpp \
+		ui_panel.hpp \
+		moc_predefs.h \
+		/usr/bin/moc
+	/usr/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/juho/Puuhailu/cpp/cppproj/Pipe/src -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/8.2.1 -I/usr/include/c++/8.2.1/x86_64-pc-linux-gnu -I/usr/include/c++/8.2.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/include-fixed -I/usr/include ui_panel.hpp -o moc_ui_panel.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -740,7 +756,9 @@ main.o: main.cpp game.hpp \
 		controller.hpp \
 		main_window.hpp \
 		ui_playfield.hpp \
-		ui_tile.hpp
+		ui_tile.hpp \
+		ui_panel.hpp \
+		common_data_fun.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 main_window.o: main_window.cpp main_window.hpp \
@@ -750,7 +768,8 @@ main_window.o: main_window.cpp main_window.hpp \
 		field.hpp \
 		controller.hpp \
 		game.hpp \
-		level.hpp
+		level.hpp \
+		ui_panel.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main_window.o main_window.cpp
 
 tile.o: tile.cpp tile.hpp \
@@ -777,6 +796,13 @@ ui_tile.o: ui_tile.cpp ui_tile.hpp \
 		tile.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ui_tile.o ui_tile.cpp
 
+ui_panel.o: ui_panel.cpp ui_panel.hpp \
+		ui_tile.hpp \
+		tile.hpp \
+		level.hpp \
+		field.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ui_panel.o ui_panel.cpp
+
 moc_main_window.o: moc_main_window.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_main_window.o moc_main_window.cpp
 
@@ -785,6 +811,9 @@ moc_ui_playfield.o: moc_ui_playfield.cpp
 
 moc_ui_tile.o: moc_ui_tile.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ui_tile.o moc_ui_tile.cpp
+
+moc_ui_panel.o: moc_ui_panel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ui_panel.o moc_ui_panel.cpp
 
 ####### Install
 
