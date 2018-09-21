@@ -17,9 +17,6 @@ int main(int argc, char *argv[])
   srand(time(NULL));
 
   ctrl = new Controller();
-  
-  std ::cout << "Some random number for your viewing pleasure:" << std::endl
-	     << randint() << ", " << randint() << ", " << randint() << std::endl;
 
   QApplication app(argc, argv);
   Main_window mw(NULL);
@@ -29,6 +26,8 @@ int main(int argc, char *argv[])
   mw.show();
 
   std::cout << "main window shown" << std::endl;
+
+  //ctrl->Get_game().Get_pathfinder().Start_timer();
   
   return app.exec();
   //Game game(0);

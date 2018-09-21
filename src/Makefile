@@ -60,7 +60,8 @@ SOURCES       = common_data_fun.cpp \
 		ui_playfield.cpp \
 		controller.cpp \
 		ui_tile.cpp \
-		ui_panel.cpp moc_main_window.cpp \
+		ui_panel.cpp \
+		pathfinder.cpp moc_main_window.cpp \
 		moc_ui_playfield.cpp \
 		moc_ui_tile.cpp \
 		moc_ui_panel.cpp
@@ -75,6 +76,7 @@ OBJECTS       = common_data_fun.o \
 		controller.o \
 		ui_tile.o \
 		ui_panel.o \
+		pathfinder.o \
 		moc_main_window.o \
 		moc_ui_playfield.o \
 		moc_ui_tile.o \
@@ -256,7 +258,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		ui_playfield.hpp \
 		controller.hpp \
 		ui_tile.hpp \
-		ui_panel.hpp common_data_fun.cpp \
+		ui_panel.hpp \
+		pathfinder.hpp common_data_fun.cpp \
 		field.cpp \
 		game.cpp \
 		level.cpp \
@@ -266,7 +269,8 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		ui_playfield.cpp \
 		controller.cpp \
 		ui_tile.cpp \
-		ui_panel.cpp
+		ui_panel.cpp \
+		pathfinder.cpp
 QMAKE_TARGET  = pipe
 DESTDIR       = 
 TARGET        = pipe
@@ -638,8 +642,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents common_data_fun.hpp field.hpp game.hpp level.hpp main_window.hpp tile.hpp ui_playfield.hpp controller.hpp ui_tile.hpp ui_panel.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents common_data_fun.cpp field.cpp game.cpp level.cpp main.cpp main_window.cpp tile.cpp ui_playfield.cpp controller.cpp ui_tile.cpp ui_panel.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents common_data_fun.hpp field.hpp game.hpp level.hpp main_window.hpp tile.hpp ui_playfield.hpp controller.hpp ui_tile.hpp ui_panel.hpp pathfinder.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents common_data_fun.cpp field.cpp game.cpp level.cpp main.cpp main_window.cpp tile.cpp ui_playfield.cpp controller.cpp ui_tile.cpp ui_panel.cpp pathfinder.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -681,6 +685,7 @@ moc_main_window.cpp: ui_playfield.hpp \
 		controller.hpp \
 		game.hpp \
 		level.hpp \
+		pathfinder.hpp \
 		ui_panel.hpp \
 		main_window.hpp \
 		moc_predefs.h \
@@ -693,6 +698,7 @@ moc_ui_playfield.cpp: ui_tile.hpp \
 		controller.hpp \
 		game.hpp \
 		level.hpp \
+		pathfinder.hpp \
 		ui_playfield.hpp \
 		moc_predefs.h \
 		/usr/bin/moc
@@ -740,7 +746,8 @@ field.o: field.cpp field.hpp \
 game.o: game.cpp game.hpp \
 		level.hpp \
 		tile.hpp \
-		field.hpp
+		field.hpp \
+		pathfinder.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o game.o game.cpp
 
 level.o: level.cpp level.hpp \
@@ -753,6 +760,7 @@ main.o: main.cpp game.hpp \
 		level.hpp \
 		tile.hpp \
 		field.hpp \
+		pathfinder.hpp \
 		controller.hpp \
 		main_window.hpp \
 		ui_playfield.hpp \
@@ -769,6 +777,7 @@ main_window.o: main_window.cpp main_window.hpp \
 		controller.hpp \
 		game.hpp \
 		level.hpp \
+		pathfinder.hpp \
 		ui_panel.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main_window.o main_window.cpp
 
@@ -782,14 +791,16 @@ ui_playfield.o: ui_playfield.cpp ui_playfield.hpp \
 		field.hpp \
 		controller.hpp \
 		game.hpp \
-		level.hpp
+		level.hpp \
+		pathfinder.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ui_playfield.o ui_playfield.cpp
 
 controller.o: controller.cpp controller.hpp \
 		field.hpp \
 		tile.hpp \
 		game.hpp \
-		level.hpp
+		level.hpp \
+		pathfinder.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controller.o controller.cpp
 
 ui_tile.o: ui_tile.cpp ui_tile.hpp \
@@ -802,6 +813,14 @@ ui_panel.o: ui_panel.cpp ui_panel.hpp \
 		level.hpp \
 		field.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ui_panel.o ui_panel.cpp
+
+pathfinder.o: pathfinder.cpp pathfinder.hpp \
+		field.hpp \
+		tile.hpp \
+		level.hpp \
+		controller.hpp \
+		game.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pathfinder.o pathfinder.cpp
 
 moc_main_window.o: moc_main_window.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_main_window.o moc_main_window.cpp

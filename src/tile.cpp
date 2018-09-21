@@ -36,7 +36,8 @@ Tile::Tile()
 }
 
 Tile::Tile(int pipe)
-  :pipe(pipe)
+  :pipe(pipe),
+   has_goo(false)
 {}
 
 int Tile::Get_pipe()
@@ -47,4 +48,23 @@ int Tile::Get_pipe()
 void Tile::Set_pipe(int pipe)
 {
   this->pipe = pipe;
+}
+
+void Tile::Put_goo()
+{
+  has_goo = true;
+}
+
+bool Tile::Has_goo()
+{
+  return has_goo;
+}
+
+int Tile::Get_tile_duration()
+{
+  if (pipe&POOL) {
+    return 4000;
+  } else {
+    return 2000;
+  }
 }

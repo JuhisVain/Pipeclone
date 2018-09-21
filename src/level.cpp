@@ -12,6 +12,7 @@ Level::Level(int difficulty, int level_count)
    field(Generate_field(difficulty, level_count)),
    tile_queue_size(8)
 {
+  std::cout << "level constructor" << std::endl;
   Generate_tile_queue(difficulty,level_count);
 }
 
@@ -83,6 +84,8 @@ Field Level::Generate_field(int difficulty, int level_count)
     endy = (randint() % height);
   } while(endx == startx && endy == starty);
   field.Set_tile(endx, endy, END|(0x1<<(randint()%4)));
+
+  std::cout << "Generate field finished, returining" << std::endl;
 
   return field;
 }

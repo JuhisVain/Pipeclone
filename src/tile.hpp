@@ -20,9 +20,13 @@ public:
   explicit Tile(int pipe); //predetermined pipe. 0 is the empty tile
   int Get_pipe();
   void Set_pipe(int pipe);
+  void Put_goo();
+  bool Has_goo();
+  int Get_tile_duration();
 
 private:
   int pipe;
+  bool has_goo; //could be set in pipe
 
 };
 

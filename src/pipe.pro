@@ -31,7 +31,8 @@ HEADERS += common_data_fun.hpp \
            ui_playfield.hpp \
            controller.hpp \
 	   ui_tile.hpp \
-	   ui_panel.hpp
+	   ui_panel.hpp \
+	   pathfinder.hpp
 SOURCES += common_data_fun.cpp \
            field.cpp \
            game.cpp \
@@ -42,4 +43,5 @@ SOURCES += common_data_fun.cpp \
            ui_playfield.cpp \
            controller.cpp \
 	   ui_tile.cpp \
-	   ui_panel.cpp
+	   ui_panel.cpp \
+	   pathfinder.cpp

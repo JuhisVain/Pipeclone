@@ -24,7 +24,6 @@ int Ui_tile::dbpipe()
 //protected:
 void Ui_tile::paintEvent(QPaintEvent *event)
 {
-  std::cout << "paintevent" << std::endl;
   QPainter painter(this);
   
   painter.setPen(Qt::black);
@@ -32,7 +31,6 @@ void Ui_tile::paintEvent(QPaintEvent *event)
   painter.eraseRect(0,0,64,64);
   
   int pipecode = tile->Get_pipe();
-  std::cout <<  "tile num: " << pipecode << std::endl;
 
   if (pipecode) { //center
     painter.drawEllipse(28,28,8,8);
@@ -67,7 +65,6 @@ void Ui_tile::paintEvent(QPaintEvent *event)
     } //ifelse
   } //for
  forescape:
-  std::cout << "paintevent done!" << std::endl;
   return;
   
 }

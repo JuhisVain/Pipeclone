@@ -1,110 +1,53 @@
-#include <iostream>
-#include "game.hpp"
+#include "pathfinder.hpp"
+#include "controller.hpp"
 
-//Testing without gui:
-std::string print_pipe(int pipe)
+
+extern Controller *ctrl;
+
+Pathfinder::Pathfinder()
+  :timer(),
+   timer_th(timer.Create_thread())
 {
-  std::string draw;
-  switch (pipe) {
-  case (0):
-    draw = ".";
-    break;
-  case (N|S):
-    draw = "\u2503";
-    break;
-  case (W|E):
-    draw = "\u2501";
-    break;
-  case (N|E):
-    draw = "\u2517";
-    break;
-  case (N|W):
-    draw = "\u251B";
-    break;
-  case (S|E):
-    draw = "\u250F";
-    break;
-  case (S|W):
-    draw = "\u2513";
-    break;
-  case (N|E|S|W):
-    draw = "\u254B";
-    break;
-  case (START|N):
-    draw = "\u2579";
-    break;
-  case (START|E):
-    draw = "\u257A";
-    break;
-  case (START|S):
-    draw = "\u257B";
-    break;
-  case (START|W):
-    draw = "\u2578";
-    break;
-  case (END|N):
-    draw = "\u255C";
-    break;
-  case (END|E):
-    draw = "\u2558";
-    break;
-  case (END|S):
-    draw = "\u2553";
-    break;
-  case (END|W):
-    draw = "\u2555";
-    break;
-  default:
-    draw = "?";
-    break;
-  }
 
-  return draw;
 }
 
-Game::Game(int difficulty)
-  :difficulty(difficulty),
-   total_score(0),
-   level_count(0),
-   current_level(Level(difficulty,level_count)),
-   pathfinder()
+void Pathfinder::Start_timer()
 {
-
-  std::cout << "Game constructor" << std::endl;
-  //pathfinder.Start_timer();
-  
+  timer.Start();
 }
 
-Level &Game::Get_level()
+void Timer::Start()
 {
-  return current_level;
-}
-
-Field &Game::Get_field()
-{
-  return current_level.Get_field();
-}
-
-Pathfinder &Game::Get_pathfinder()
-{
-  return pathfinder;
-}
-
-void Game::Test_pipe()
-{
+  running = true;
+  std::cout << "get level" << std::endl;
+  Level &current_level = ctrl->Get_level();
+  std::cout << "get field" << std::endl;
+  Field &field = ctrl->Get_field();
+  std::cout << "get start" << std::endl;
+  std::cout << "currentlevel" << &current_level << std::endl;
   crd path_head = current_level.Get_start();
-  Field &field = current_level.Get_field();
+  std::cout << "pipecode" << std::endl;
   int pipecode = (N|E|S|W)&(field.tileat(path_head.x, path_head.y).Get_pipe());
+  std::cout << "tileat" << std::endl;
+  Tile &tile = field.tileat(path_head.x, path_head.y);
 
-  while (true) {
+  std::cout << "timer init finished" << std::endl;
+  
+  while (running) {
+    //Goo running within tile:
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms_interval));
+    //sleep(std::chrono::milliseconds(ms_interval));
 
-    std::cout << "crd: " << path_head.x << "," << path_head.y;
-    
+    std::cout << "within timer's while" << std::endl;
+
+    //start handling next tile:
     switch (pipecode) {
     case N: //Go look at North
       std::cout << ", N" << std::endl;
       --path_head.y;
-      pipecode = field.tileat(path_head.x, path_head.y).Get_pipe(); //tile at North
+      tile = field.tileat(path_head.x, path_head.y);
+      tile.Put_goo();
+      pipecode = tile.Get_pipe(); //tile at North
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) { //Is a cross?
 	std::cout << " Is cross, ";
 	pipecode = N & pipecode;
@@ -113,13 +56,16 @@ void Game::Test_pipe()
 	pipecode = (N|E|W) & pipecode; //pipecode with exit only
       } else {
 	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
+	running = false;
 	return;
       }
       break;
     case E:
       std::cout << ", E" << std::endl;
       ++path_head.x;
-      pipecode = field.tileat(path_head.x, path_head.y).Get_pipe();
+      tile = field.tileat(path_head.x, path_head.y);
+      tile.Put_goo();
+      pipecode = tile.Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
 	std::cout << " Is cross, ";
 	pipecode = E & pipecode;
@@ -128,13 +74,16 @@ void Game::Test_pipe()
 	pipecode = (N|E|S) & pipecode;
       } else {
 	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
+	running = false;
 	return;
       }
       break;
     case S:
       std::cout << ", S" << std::endl;
       ++path_head.y;
-      pipecode = field.tileat(path_head.x, path_head.y).Get_pipe();
+      tile = field.tileat(path_head.x, path_head.y);
+      tile.Put_goo();
+      pipecode = tile.Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
 	std::cout << " Is cross, ";
 	pipecode = S & pipecode;
@@ -143,13 +92,16 @@ void Game::Test_pipe()
 	pipecode = (S|E|W) & pipecode;
       } else {
 	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
+	running = false;
 	return;
       }
       break;
     case W:
       std::cout << ", W" << std::endl;
       --path_head.x;
-      pipecode = field.tileat(path_head.x, path_head.y).Get_pipe();
+      tile = field.tileat(path_head.x, path_head.y);
+      tile.Put_goo();
+      pipecode = tile.Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
 	std::cout << " Is cross, ";
 	pipecode = W & pipecode;
@@ -158,6 +110,7 @@ void Game::Test_pipe()
 	pipecode = (S|W|N) & pipecode;
       } else {
 	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
+	running = false;
 	return;
       }
       break;
@@ -167,10 +120,28 @@ void Game::Test_pipe()
       } else {
 	std::cout << "FAIL: " << pipecode << std::endl;
       }
+      running = false;
       return;
       break;
     }
-    
+    Set_interval(tile.Get_tile_duration());
   }
-
 }
+
+std::thread *Timer::Create_thread()
+{
+  return new std::thread( [this] {Start();});
+}
+
+void Timer::Set_interval(int milliseconds)
+{
+  ms_interval = milliseconds;
+}
+
+/*
+int main()
+{
+  Pathfinder p;
+  return 0;
+}
+*/
