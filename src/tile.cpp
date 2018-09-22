@@ -36,8 +36,8 @@ Tile::Tile()
 }
 
 Tile::Tile(int pipe)
-  :pipe(pipe),
-   has_goo(false)
+  :pipe(pipe)
+   //has_goo(false)
 {}
 
 int Tile::Get_pipe()
@@ -52,12 +52,28 @@ void Tile::Set_pipe(int pipe)
 
 void Tile::Put_goo()
 {
-  has_goo = true;
+  //has_goo = true;
+  std::cout << "pipe: " << pipe;
+  pipe |= HAS_GOO;
+  std::cout << " after: " << pipe << std::endl;
 }
 
 bool Tile::Has_goo()
 {
-  return has_goo;
+  //return has_goo;
+  return pipe & HAS_GOO;
+}
+
+bool Tile::Is_god()
+{
+  return pipe & GODMODE;
+}
+
+bool Tile::Invulnerable()
+{
+  if (pipe & GODMODE) std::cout << "GODMODE ";
+  if (pipe & HAS_GOO) std::cout << "HAS GOO ";
+  return pipe & (GODMODE|HAS_GOO);
 }
 
 int Tile::Get_tile_duration()

@@ -9,17 +9,21 @@ extern Controller *ctrl;
 Main_window::Main_window(QWidget *parent)
   : QMainWindow(parent),
     central_widget(new QWidget(this)),
-    ui_field(new Ui_playfield(central_widget, ctrl->Get_field())),
+    ui_field(new Ui_playfield(central_widget, ctrl->Get_field(), ctrl->Get_level())),
     ui_panel(new Ui_panel(central_widget, ctrl->Get_level()))
 {
   std::cout << "mw construct" << std::endl;
   Setup_ui();
 }
 
+Ui_playfield *Main_window::Get_ui_playfield()
+{
+  return ui_field;
+}
+
 //public slots:
 void Main_window::update_panel()
 {
-  std::cout << "mw.update_panel" << std::endl;
   ui_panel->panel_update();
 }
 

@@ -11,13 +11,11 @@ Ui_tile::Ui_tile(QWidget *parent, Tile *tile)
 
 void Ui_tile::relink_tile(Tile *tile)
 {
-  std::cout << "relink tile" << std::endl;
   this->tile = tile;
 }
 
 int Ui_tile::dbpipe()
 {
-  std::cout << "dbtile" << std::endl;
   return tile->Get_pipe();
 }
 
@@ -32,34 +30,41 @@ void Ui_tile::paintEvent(QPaintEvent *event)
   
   int pipecode = tile->Get_pipe();
 
+  std::cout << " pc: " << pipecode
+	    << " has goo: " << (pipecode&HAS_GOO) << std::endl;
+
   if (pipecode) { //center
     painter.drawEllipse(28,28,8,8);
   }
 
+  if (pipecode&START) {
+    painter.drawText(4,20,QString("S"));
+  } else if (pipecode&END) {
+    painter.drawText(4,20,QString("E"));
+  }
+
+  if (pipecode&HAS_GOO) {
+    painter.drawText(50,20,QString("G"));
+  }
+
   for (int i = 0; i < 2; ++i) {
     if ((pipecode & (N|E|S|W)) == (N|E|S|W)) {
-      //std::cout << "cross" << std::endl;
       painter.fillRect(28,0,8,64,Qt::black);
       painter.fillRect(0,28,64,8,Qt::black);
       goto forescape;
     } else if(pipecode & N) {
-      //std::cout << "N" << std::endl;
       painter.fillRect(28,0,8,32,Qt::black);
       pipecode &= ~N;
     } else if (pipecode & S) {
-      //std::cout << "S" << std::endl;
       painter.fillRect(28,32,8,32,Qt::black);
       pipecode &= ~S;
     } else if (pipecode & W) {
-      //std::cout << "W" << std::endl;
       painter.fillRect(0,28,32,8,Qt::black);
       pipecode &= ~W;
     } else if (pipecode & E) {
-      //std::cout << "E" << std::endl;
       painter.fillRect(32,28,32,8,Qt::black);
       pipecode &= ~E;
     } else {
-      //std::cout << "ERROR" << std::endl;
       painter.drawRect(10,10,32,32);
       goto forescape;
     } //ifelse

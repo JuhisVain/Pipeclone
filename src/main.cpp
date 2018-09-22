@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 
   QApplication app(argc, argv);
   Main_window mw(NULL);
+  ctrl->Set_ui_playfield(mw.Get_ui_playfield());
 
   std::cout << "Main window created" << std::endl;
 

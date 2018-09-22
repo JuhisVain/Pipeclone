@@ -8,9 +8,10 @@ enum PIPE {
 	   S =        0x4,
 	   W =        0x8,
 	   POOL =     0x10,
-	   NARROW =   0x20,
+	   HAS_GOO =  0x20,
 	   START =    0x40,
-	   END =      0x80
+	   END =      0x80,
+	   GODMODE =  0x100
 };
 
 class Tile
@@ -22,11 +23,13 @@ public:
   void Set_pipe(int pipe);
   void Put_goo();
   bool Has_goo();
+  bool Is_god();
+  bool Invulnerable();
   int Get_tile_duration();
 
 private:
   int pipe;
-  bool has_goo; //could be set in pipe
+  //bool has_goo; //could be set in pipe
 
 };
 

@@ -11,6 +11,7 @@ class Main_window : public QMainWindow
   Q_OBJECT
 public:
   explicit Main_window(QWidget *parent = 0);
+  Ui_playfield *Get_ui_playfield();
 
 public slots:
   void update_panel();

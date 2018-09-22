@@ -26,3 +26,14 @@ Game &Controller::Get_game()
 {
   return game;
 }
+
+void Controller::Set_ui_playfield(Ui_playfield *ui_field)
+{
+  this->ui_field = ui_field;
+}
+
+void Controller::Update_ui_tile(int x, int y)
+{
+  ui_field->Update_tile(x,y);
+}
+

@@ -29,30 +29,27 @@ void Timer::Start()
   std::cout << "pipecode" << std::endl;
   int pipecode = (N|E|S|W)&(field.tileat(path_head.x, path_head.y).Get_pipe());
   std::cout << "tileat" << std::endl;
-  Tile &tile = field.tileat(path_head.x, path_head.y);
+  Tile *tile = field.tileptr(path_head.x, path_head.y);
 
   std::cout << "timer init finished" << std::endl;
   
   while (running) {
     //Goo running within tile:
     std::this_thread::sleep_for(std::chrono::milliseconds(ms_interval));
-    //sleep(std::chrono::milliseconds(ms_interval));
-
-    std::cout << "within timer's while" << std::endl;
 
     //start handling next tile:
     switch (pipecode) {
     case N: //Go look at North
-      std::cout << ", N" << std::endl;
+      std::cout << ",N";
       --path_head.y;
-      tile = field.tileat(path_head.x, path_head.y);
-      tile.Put_goo();
-      pipecode = tile.Get_pipe(); //tile at North
+      tile = field.tileptr(path_head.x, path_head.y);
+      tile->Put_goo();
+      pipecode = tile->Get_pipe(); //tile at North
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) { //Is a cross?
-	std::cout << " Is cross, ";
+	//std::cout << " Is cross, ";
 	pipecode = N & pipecode;
       } else if (S & pipecode) { //Has entry from South?
-	std::cout << " Has entry from south" << std::endl;
+	//std::cout << " Has entry from south" << std::endl;
 	pipecode = (N|E|W) & pipecode; //pipecode with exit only
       } else {
 	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
@@ -61,16 +58,16 @@ void Timer::Start()
       }
       break;
     case E:
-      std::cout << ", E" << std::endl;
+      std::cout << ",E";
       ++path_head.x;
-      tile = field.tileat(path_head.x, path_head.y);
-      tile.Put_goo();
-      pipecode = tile.Get_pipe();
+      tile = field.tileptr(path_head.x, path_head.y);
+      tile->Put_goo();
+      pipecode = tile->Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
-	std::cout << " Is cross, ";
+	//std::cout << " Is cross, ";
 	pipecode = E & pipecode;
       } else if (W & pipecode) {
-	std::cout << " Has entry from west" << std::endl;
+	//std::cout << " Has entry from west" << std::endl;
 	pipecode = (N|E|S) & pipecode;
       } else {
 	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
@@ -79,16 +76,16 @@ void Timer::Start()
       }
       break;
     case S:
-      std::cout << ", S" << std::endl;
+      std::cout << ",S";
       ++path_head.y;
-      tile = field.tileat(path_head.x, path_head.y);
-      tile.Put_goo();
-      pipecode = tile.Get_pipe();
+      tile = field.tileptr(path_head.x, path_head.y);
+      tile->Put_goo();
+      pipecode = tile->Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
-	std::cout << " Is cross, ";
+	//std::cout << " Is cross, ";
 	pipecode = S & pipecode;
       } else if (N & pipecode) {
-	std::cout << " Has entry from north" << std::endl;
+	//std::cout << " Has entry from north" << std::endl;
 	pipecode = (S|E|W) & pipecode;
       } else {
 	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
@@ -97,16 +94,16 @@ void Timer::Start()
       }
       break;
     case W:
-      std::cout << ", W" << std::endl;
+      std::cout << ",W";
       --path_head.x;
-      tile = field.tileat(path_head.x, path_head.y);
-      tile.Put_goo();
-      pipecode = tile.Get_pipe();
+      tile = field.tileptr(path_head.x, path_head.y);
+      tile->Put_goo();
+      pipecode = tile->Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
-	std::cout << " Is cross, ";
+	//std::cout << " Is cross, ";
 	pipecode = W & pipecode;
       } else if (E & pipecode) {
-	std::cout << " Has entry from east" << std::endl;
+	//std::cout << " Has entry from east" << std::endl;
 	pipecode = (S|W|N) & pipecode;
       } else {
 	std::cout << "Pipe leaks at (" << path_head.x << "," << path_head.y << ")" << std::endl;
@@ -115,7 +112,7 @@ void Timer::Start()
       }
       break;
     default:
-      if (field.tileat(path_head.x, path_head.y).Get_pipe() & END) {
+      if (field.tileptr(path_head.x, path_head.y)->Get_pipe() & END) {
 	std::cout << "No leak!" << std::endl;
       } else {
 	std::cout << "FAIL: " << pipecode << std::endl;
@@ -124,7 +121,9 @@ void Timer::Start()
       return;
       break;
     }
-    Set_interval(tile.Get_tile_duration());
+    std::cout << "updating uitile at " << path_head.x << "," << path_head.y << " :: ";
+    ctrl->Update_ui_tile(path_head.x, path_head.y);
+    Set_interval(tile->Get_tile_duration());
   }
 }
 

@@ -2,17 +2,25 @@
 #include <iostream>
 
 #include "game.hpp"
+#include "controller.hpp"
 
 extern Controller *ctrl;
 
 //public::
-Ui_playfield::Ui_playfield(QWidget *parent, Field &datafield)
+Ui_playfield::Ui_playfield(QWidget *parent, Field &datafield, Level &level)
   : QWidget(parent),
     playfield(datafield),
+    level(level),
     tilesize(64)
 {
   std::cout << "ui_playfield" << std::endl;
   Setup_ui_field();
+}
+
+void Ui_playfield::Update_tile(int x, int y)
+{
+  std::cout << "update ui tile: " << x << "," << y;
+  ui_tiles[x+playfield.Get_width()*y]->repaint();
 }
 
 //protected:
@@ -22,7 +30,8 @@ void Ui_playfield::mouseReleaseEvent(QMouseEvent *event)
   int xcoord = event->x()/tilesize;
   int ycoord = event->y()/tilesize;
 
-  playfield.Set_tile(xcoord,ycoord,ctrl->Get_game().Get_level().Pop_tile());
+  //playfield.Set_tile(xcoord,ycoord,ctrl->Get_game().Get_level().Pop_tile());
+  level.Play_tile(xcoord,ycoord);
   ui_tiles[xcoord+playfield.Get_width()*ycoord]->repaint();
 
   emit field_clicked();

@@ -47,7 +47,13 @@ Field &Level::Get_field()
 
 void Level::Play_tile(int x, int y)
 {
-  field.Set_tile(x,y,Pop_tile());
+  if (field.tileat(x,y).Invulnerable()) {
+    std::cout << "Invulnerable clicked: " << x << "," << y << std::endl;
+  } else {
+    std::cout << "OK clicked: " << x << "," << y << std::endl;
+    field.Set_tile(x,y,Pop_tile());
+    //Play_tile(x,y); I'm a moron
+  }
 }
 
 struct coordinates Level::Get_start()
@@ -70,7 +76,7 @@ Field Level::Generate_field(int difficulty, int level_count)
 
   std::cout << "startx : " << startx << "starty : " << starty << std::endl;
   
-  field.Set_tile(startx, starty, START|(0x1<<(randint()%4)));
+  field.Set_tile(startx, starty, GODMODE|START|(0x1<<(randint()%4)));
   
   start_tile.x = startx;
   start_tile.y = starty;
@@ -83,7 +89,7 @@ Field Level::Generate_field(int difficulty, int level_count)
     endx = (randint() % width);
     endy = (randint() % height);
   } while(endx == startx && endy == starty);
-  field.Set_tile(endx, endy, END|(0x1<<(randint()%4)));
+  field.Set_tile(endx, endy, GODMODE|END|(0x1<<(randint()%4)));
 
   std::cout << "Generate field finished, returining" << std::endl;
 
