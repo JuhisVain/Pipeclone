@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QPropertyAnimation>
 
 #include <vector>
 
@@ -20,6 +21,7 @@ class Ui_playfield : public QWidget
 public:
   Ui_playfield(QWidget *parent, Field &datafield, Level &level);
   void Update_tile(int x, int y);
+  void Update_tile_goo(int x,int y,int interval, int start_dir);
 
 signals:
   void field_clicked();

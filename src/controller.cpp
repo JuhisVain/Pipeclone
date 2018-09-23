@@ -37,3 +37,8 @@ void Controller::Update_ui_tile(int x, int y)
   ui_field->Update_tile(x,y);
 }
 
+void Controller::Update_ui_tile_goo(int x, int y, int interval, int start_dir)
+{
+  ui_field->Update_tile_goo(x,y,interval,start_dir);
+}
+

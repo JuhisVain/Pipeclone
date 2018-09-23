@@ -14,6 +14,11 @@ void Ui_tile::relink_tile(Tile *tile)
   this->tile = tile;
 }
 
+void Ui_tile::Run_goo(int x, int y, int interval, int start_dir)
+{
+  
+}
+
 int Ui_tile::dbpipe()
 {
   return tile->Get_pipe();
@@ -22,6 +27,7 @@ int Ui_tile::dbpipe()
 //protected:
 void Ui_tile::paintEvent(QPaintEvent *event)
 {
+
   QPainter painter(this);
   
   painter.setPen(Qt::black);
@@ -65,7 +71,7 @@ void Ui_tile::paintEvent(QPaintEvent *event)
       painter.fillRect(32,28,32,8,Qt::black);
       pipecode &= ~E;
     } else {
-      painter.drawRect(10,10,32,32);
+      painter.drawRect(1,1,62,62);
       goto forescape;
     } //ifelse
   } //for

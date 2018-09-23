@@ -11,6 +11,7 @@ class Ui_tile : public QWidget
 public:
   Ui_tile(QWidget *parent, Tile *tile);
   void relink_tile(Tile *tile);
+  void Run_goo(int x, int y, int interval, int start_dir);
 
   int dbpipe();
   

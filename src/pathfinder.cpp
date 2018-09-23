@@ -44,6 +44,7 @@ void Timer::Start()
       --path_head.y;
       tile = field.tileptr(path_head.x, path_head.y);
       tile->Put_goo();
+      ctrl->Update_ui_tile_goo(path_head.x, path_head.y,tile->Get_tile_duration(),N);
       pipecode = tile->Get_pipe(); //tile at North
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) { //Is a cross?
 	//std::cout << " Is cross, ";
@@ -62,6 +63,7 @@ void Timer::Start()
       ++path_head.x;
       tile = field.tileptr(path_head.x, path_head.y);
       tile->Put_goo();
+      ctrl->Update_ui_tile_goo(path_head.x, path_head.y,tile->Get_tile_duration(),E);
       pipecode = tile->Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
 	//std::cout << " Is cross, ";
@@ -80,6 +82,7 @@ void Timer::Start()
       ++path_head.y;
       tile = field.tileptr(path_head.x, path_head.y);
       tile->Put_goo();
+      ctrl->Update_ui_tile_goo(path_head.x, path_head.y,tile->Get_tile_duration(),S);
       pipecode = tile->Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
 	//std::cout << " Is cross, ";
@@ -98,6 +101,7 @@ void Timer::Start()
       --path_head.x;
       tile = field.tileptr(path_head.x, path_head.y);
       tile->Put_goo();
+      ctrl->Update_ui_tile_goo(path_head.x, path_head.y,tile->Get_tile_duration(),W);
       pipecode = tile->Get_pipe();
       if ( ((N|E|S|W) & pipecode) == (N|E|S|W)) {
 	//std::cout << " Is cross, ";
@@ -122,7 +126,8 @@ void Timer::Start()
       break;
     }
     std::cout << "updating uitile at " << path_head.x << "," << path_head.y << " :: ";
-    ctrl->Update_ui_tile(path_head.x, path_head.y);
+    //ctrl->Update_ui_tile(path_head.x, path_head.y);
+    //ctrl->Update_ui_tile_goo(path_head.x, path_head.y,tile->Get_tile_duration());
     Set_interval(tile->Get_tile_duration());
   }
 }

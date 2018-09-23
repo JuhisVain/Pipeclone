@@ -16,6 +16,7 @@ public:
   Game &Get_game();
   void Set_ui_playfield(Ui_playfield *ui_field);
   void Update_ui_tile(int x, int y);
+  void Update_ui_tile_goo(int x, int y, int interval, int start_dir);
 
 private:
   Game game;

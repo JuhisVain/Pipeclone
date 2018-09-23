@@ -23,6 +23,13 @@ void Ui_playfield::Update_tile(int x, int y)
   ui_tiles[x+playfield.Get_width()*y]->repaint();
 }
 
+void Ui_playfield::Update_tile_goo(int x,int y,int interval, int start_dir)
+{
+  ui_tiles[x+playfield.Get_width()*y]->repaint(); //placeholder
+  //ui_tiles[x+playfield.Get_width()*y]->Run_goo(x,y,interval,start_dir);
+  
+}
+
 //protected:
 void Ui_playfield::mouseReleaseEvent(QMouseEvent *event)
 {
